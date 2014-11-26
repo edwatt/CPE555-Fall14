@@ -218,7 +218,7 @@ def obstacle_avoidance(stdscr):
 
 
 def range_sensor_get_dist():
- 	# The block below sets the Trigger to begin the sensor's routine
+    # The block below sets the Trigger to begin the sensor's routine
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
     GPIO.output(TRIG, False)
@@ -234,7 +234,7 @@ def range_sensor_get_dist():
     duration = pulse_end - pulse_start
     distance = duration * 17150
     distance = round(distance , 2)
-	return distance
+    return distance
 
 
 
