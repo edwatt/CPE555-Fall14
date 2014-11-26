@@ -10,15 +10,18 @@ GPIO.setmode(GPIO.BCM)
 TRIG=23
 ECHO=24
 
-fwd_threshold = 40
-bwd_threshold = 20
+fwd_threshold = 70
+bwd_threshold = 30
+
+obstacle_threshold = 35
 
 turn_time = 0.50 #seconds to turn before reading distance sensor again (obstacle avoidance)
 
 # speeds
 speed_k = 255
-speed_r = 255
-speed_a = 150
+speed_r = 150
+speed_a = 255
+speed_a_turn = 85 
 
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
@@ -169,7 +172,7 @@ def obstacle_avoidance(stdscr):
 	stdscr.nodelay(1)
 
 	count = 0
-	turn = 0 
+	turn = True
 	timer = 0
 	#print "Initializing..."
 
@@ -185,11 +188,11 @@ def obstacle_avoidance(stdscr):
 	while True:
 		
 		if timer > 100:
-			turn = 0
+			turn = True
 			timer = 0
 		
 		if count > 2:
-			turn = turn % 1
+			turn = not turn
 			count = 0
 			
 		time.sleep(0.25)
@@ -198,28 +201,37 @@ def obstacle_avoidance(stdscr):
 		distance = range_sensor_get_dist() # return distance in cm
 		
 		# print distance, " cm"
+	
+		#stdscr.move(10,0)
+		#stdscr.addstr("Count: " + str(count))
+		#stdscr.move(11,0)
+		#stdscr.addstr("Turn: " + str(turn))
 		
-		while distance < 30 and turn == 0:
+		while distance < obstacle_threshold and turn:
 			#print "Turn right"
 			count = count + 1
 			stop()
+			set_speed(speed_a_turn)
 			right_rot()
 			time.sleep(turn_time)
 			stop()
+			time.sleep(0.25)
 			distance = range_sensor_get_dist()
+			time.sleep(0.10)
 
-		while distance < 30 and turn == 1:
+		while distance < obstacle_threshold and not turn:
 			#print "Turn left"
 			count = count + 1
 			stop()
+			set_speed(speed_a_turn)
 			left_rot()
-			time.sleep(turn_time)
+			time.sleep(turn_time * 1.5)
 			stop()
+			time.sleep(0.25)
 			distance = range_sensor_get_dist()
-		else:
-			#print "go straight"
-			pass
+			time.sleep(0.10)
 		
+		set_speed(speed_a)
 		motor_fwd();	
 		timer = timer + 1
 
@@ -227,8 +239,8 @@ def obstacle_avoidance(stdscr):
 
 def range_sensor_get_dist():
 
-	pulse_start = None
-	pulse_end = None
+    pulse_start = None
+    pulse_end = None
     # The block below sets the Trigger to begin the sensor's routine
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
@@ -241,7 +253,7 @@ def range_sensor_get_dist():
     while GPIO.input(ECHO)==1:
             pulse_end = time.time()
 
-    if pulse_start and pulse end:
+    if pulse_start and pulse_end:
 	    #Here the actual distance is calculated
 	    duration = pulse_end - pulse_start
 	    distance = duration * 17150
