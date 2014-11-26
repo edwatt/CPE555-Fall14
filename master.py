@@ -13,6 +13,8 @@ ECHO=24
 fwd_threshold = 40
 bwd_threshold = 20
 
+turn_time = 0.50 #seconds to turn before reading distance sensor again (obstacle avoidance)
+
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
 char_keyboard_control = 'K'
