@@ -1,9 +1,18 @@
+#!/usr/bin/env python
+
 import RPi.GPIO as GPIO
 import time
+from gopigo import *
+
 GPIO.setmode(GPIO.BCM)
 # Initializing pins
 TRIG=23
 ECHO=24
+
+fwd_threshold = 40
+bwd_threshold = 20
+
+set_speed(150)
 
 print "Initializing..."
 
@@ -41,12 +50,15 @@ while True:
 	#If the distance is less than 45 cm it should move back.
 	#Otherwise it should stand still.
 	#Print commands are filler for now.
-	if distance > 90:
+	if distance > fwd_threshold:
 		print "Going Forward"
-	elif distance < 45:
+		fwd()
+	elif distance < bwd_threshold:
 		print "Going Backward"
+		bwd()
 	else:
 		print "Standing Still"
+		stop()
 	
 	
 GPIO.cleanup()
