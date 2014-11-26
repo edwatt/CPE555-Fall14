@@ -192,7 +192,7 @@ def obstacle_avoidance(stdscr):
 		
 		distance = range_sensor_get_dist() # return distance in cm
 		
-		print distance, " cm"
+		# print distance, " cm"
 		
 		while distance < 30 and turn == 0:
 			#print "Turn right"
@@ -213,6 +213,7 @@ def obstacle_avoidance(stdscr):
 			distance = range_sensor_get_dist()
 		else:
 			#print "go straight"
+			pass
 		
 		fwd();	
 		timer = timer + 1
