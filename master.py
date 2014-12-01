@@ -63,9 +63,11 @@ def main(stdscr):
 					stdscr.addstr("Current Mode: " + mode)
 
 	except SwitchMode as e:
-		# catching Q to quit program
+		pass # catching Q to quit program
+	finally:
 		stop()
 		GPIO.cleanup()
+		
 
 def keyboard_control(stdscr):
 	# do not wait for input when calling getch
