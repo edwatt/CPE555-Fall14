@@ -195,7 +195,7 @@ def obstacle_avoidance(stdscr):
 		print distance, " cm"
 		
 		while distance < 30 and turn == 0:
-			print "Turn right"
+			#print "Turn right"
 			count = count + 1
 			stop()
 			right_rot()
@@ -204,7 +204,7 @@ def obstacle_avoidance(stdscr):
 			distance = range_sensor_get_dist()
 
 		while distance < 30 and turn == 1:
-			print "Turn left"
+			#print "Turn left"
 			count = count + 1
 			stop()
 			left_rot()
@@ -212,7 +212,7 @@ def obstacle_avoidance(stdscr):
 			stop()
 			distance = range_sensor_get_dist()
 		else:
-			print "go straight"
+			#print "go straight"
 		
 		fwd();	
 		timer = timer + 1
