@@ -7,7 +7,7 @@ char_range_keeping = 'R'
 char_keyboard_control = 'K'
 char_quit = 'Q'
 
-char_switches = [char_obstacle_avoidance, char_range_keeping, char_keyboard_control, char_quit]
+char_switches = [ord(char_obstacle_avoidance), ord(char_range_keeping), ord(char_keyboard_control), ord(char_quit)]
 
 
 def main(stdscr):
@@ -94,7 +94,7 @@ def keyboard_control(stdscr):
 def poll_screen(stdscr):
 	c = stdscr.getch()
 
-	if chr(c) in char_switches or chr(c).upper() in char_switches:
+	if c in char_switches or (c + 32) in char_switches:
 		raise SwitchMode(chr(c).upper()) # throw exception
 	else:
 		return c
