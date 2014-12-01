@@ -1,6 +1,17 @@
+#!/usr/bin/env python
+
 import curses
+import RPi.GPIO as GPIO
 import time
 from gopigo import *
+
+GPIO.setmode(GPIO.BCM)
+# Initializing pins
+TRIG=23
+ECHO=24
+
+fwd_threshold = 40
+bwd_threshold = 20
 
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
@@ -38,6 +49,7 @@ def main(stdscr):
 				else:
 					c = poll_screen(stdscr)
 					stdscr.move(7,0)
+					stdscr.clrtoeol()
 					stdscr.addstr(str(c))
 			except SwitchMode as e:
 				stop()
@@ -49,7 +61,9 @@ def main(stdscr):
 					stdscr.addstr("Current Mode: " + mode)
 
 	except SwitchMode as e:
-		pass # catching Q to quit program
+		# catching Q to quit program
+		stop()
+		GPIO.cleanup()
 
 def keyboard_control(stdscr):
 	# do not wait for input when calling getch
@@ -97,6 +111,60 @@ def keyboard_control(stdscr):
 		time.sleep(0.15)
 		curses.flushinp() 
 		time.sleep(0.15)
+
+
+def range_keep():
+
+	stdscr.nodelay(1)
+	poll_screen(stdscr)
+
+	#print "Initializing..."
+
+	GPIO.setup(TRIG,GPIO.OUT)
+	GPIO.setup(ECHO,GPIO.IN)
+
+	#Setting trigger pin to False to give the sensor time to settle before loop
+	GPIO.output(TRIG, False)
+	#print "Waiting for sensor"
+	time.sleep(2)
+
+	#Continually loop, pulsing the sensor every quarter second.  I'm not sure what kind of performance to expect.
+	while True:
+		time.sleep(0.25)
+		
+		# The block below sets the Trigger to begin the sensor's routine
+		GPIO.output(TRIG, True)
+		time.sleep(0.00001)
+		GPIO.output(TRIG, False)
+		
+		#These while blocks measure the beginning and end times for the distance calculation
+		while GPIO.input(ECHO)==0:
+			pulse_start = time.time()
+
+		while GPIO.input(ECHO)==1:
+			pulse_end = time.time()
+
+		#Here the actual distance is calculated
+		duration = pulse_end - pulse_start
+		distance = duration * 17150
+		distance = round(distance , 2)
+		#print distance, " cm"
+		
+		#If the distance is greater than 90 cm the robot should move forward.
+		#If the distance is less than 45 cm it should move back.
+		#Otherwise it should stand still.
+		#Print commands are filler for now.
+		if distance > fwd_threshold:
+			#print "Going Forward"
+			fwd()
+		elif distance < bwd_threshold:
+			#print "Going Backward"
+			bwd()
+		else:
+			#print "Standing Still"
+			stop()
+
+
 
 
 def poll_screen(stdscr):
