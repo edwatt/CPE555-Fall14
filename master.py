@@ -46,6 +46,8 @@ def main(stdscr):
 
 				if mode == 'K':
 					keyboard_control(stdscr)
+				elif mode == "R":
+					range_keep(stdscr)
 				else:
 					c = poll_screen(stdscr)
 					stdscr.move(7,0)
@@ -113,7 +115,7 @@ def keyboard_control(stdscr):
 		time.sleep(0.15)
 
 
-def range_keep():
+def range_keep(stdscr):
 
 	stdscr.nodelay(1)
 	poll_screen(stdscr)
