@@ -26,6 +26,8 @@ def main(stdscr):
 	stdscr.move(6,0)
 	stdscr.addstr("Current Mode: ")
 
+	mode = None
+
 	while True:
 		try:
 			if mode:
