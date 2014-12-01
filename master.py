@@ -102,9 +102,9 @@ def keyboard_control(stdscr):
 			stop()
 			
 			if c == curses.KEY_UP:
-				fwd()
+				motor_fwd()
 			elif c == curses.KEY_DOWN:
-				bwd()
+				motor_bwd()
 			elif c == curses.KEY_LEFT:
 				left_rot()
 			elif c == curses.KEY_RIGHT:
@@ -155,10 +155,10 @@ def range_keep(stdscr):
 		#Print commands are filler for now.
 		if distance > fwd_threshold:
 			#print "Going Forward"
-			fwd()
+			motor_fwd()
 		elif distance < bwd_threshold:
 			#print "Going Backward"
-			bwd()
+			motor_bwd()
 		else:
 			#print "Standing Still"
 			stop()
@@ -220,7 +220,7 @@ def obstacle_avoidance(stdscr):
 			#print "go straight"
 			pass
 		
-		fwd();	
+		motor_fwd();	
 		timer = timer + 1
 
 
