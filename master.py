@@ -31,10 +31,15 @@ def main(stdscr):
 
 		while True:
 			try:
-				c = poll_screen(stdscr)
-				stdscr.move(7,0)
-				stdscr.addstr(str(c))
+
+				if mode == 'K':
+					keyboard_control(stdscr)
+				else:
+					c = poll_screen(stdscr)
+					stdscr.move(7,0)
+					stdscr.addstr(str(c))
 			except SwitchMode as e:
+				stop()
 				if e.value == 'Q':
 					raise
 				else:
@@ -54,11 +59,11 @@ def keyboard_control(stdscr):
 
 	while True:
 		# get keyboard input, returns -1 if none available
-		c = stdscr.getch()
+		c = poll_screen(stdscr)
 		if c != -1 and c != key_pressed:
 			curses.flushinp()
 			time.sleep(0.15)
-			c = stdscr.getch()
+			c = poll_screen(stdscr)
 
 			stdscr.addstr(str(c))
 			stdscr.refresh()
