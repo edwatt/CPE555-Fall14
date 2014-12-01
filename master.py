@@ -118,7 +118,6 @@ def keyboard_control(stdscr):
 def range_keep(stdscr):
 
 	stdscr.nodelay(1)
-	poll_screen(stdscr)
 
 	#print "Initializing..."
 
@@ -132,6 +131,8 @@ def range_keep(stdscr):
 
 	#Continually loop, pulsing the sensor every quarter second.  I'm not sure what kind of performance to expect.
 	while True:
+
+		poll_screen(stdscr)
 		time.sleep(0.25)
 		
 		# The block below sets the Trigger to begin the sensor's routine
