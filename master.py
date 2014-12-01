@@ -5,8 +5,9 @@ from gopigo import *
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
 char_keyboard_control = 'K'
+char_quit = 'Q'
 
-char_switches = [char_obstacle_avoidance, char_range_keeping, char_keyboard_control]
+char_switches = [char_obstacle_avoidance, char_range_keeping, char_keyboard_control, char_quit]
 
 
 def main(stdscr):
@@ -20,11 +21,26 @@ def main(stdscr):
 	stdscr.addstr("R - Range Keeping")
 	stdscr.move(4, 0)
 	stdscr.addstr("K - Keyboard Control")
+	stdscr.move(5, 0)
+	stdscr.addstr("Q - Quit")
+	stdscr.move(6,0)
+	stdscr.addstr("Current Mode: ")
 
 	while True:
-		c = poll_screen(stdscr)
-		stdscr.move(5,0)
-		stdscr.addstr(str(c))
+		try:
+			if mode:
+				stdscr.move(7,0)
+				stdscr.addstr("Switching to mode: " + mode)
+			c = poll_screen(stdscr)
+			stdscr.move(7,0)
+			stdscr.addstr(str(c))
+		except SwitchMode as e:
+			if e.value == 'Q':
+				raise
+			else:
+				mode = e.value
+				stdscr.move(6,0)
+				stdscr.addstr("Current Mode: " + mode)
 
 
 def keyboard_control(stdscr):
@@ -77,9 +93,16 @@ def poll_screen(stdscr):
 	c = stdscr.getch()
 
 	if chr(c) in char_switches or chr(c).upper() in char_switches:
-		return "Switch Mode" # throw exception
+		raise SwitchMode(chr(c).upper()) # throw exception
 	else:
 		return c
+
+
+class SwitchMode(Exception):
+	def __init__(self, value):
+		self.value = value
+	def __str__(self):
+		return repr(self.value)
 
 
 if __name__ == '__main__':
