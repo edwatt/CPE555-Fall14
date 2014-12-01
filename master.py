@@ -30,9 +30,6 @@ def main(stdscr):
 
 	while True:
 		try:
-			if mode:
-				stdscr.move(7,0)
-				stdscr.addstr("Switching to mode: " + mode)
 			c = poll_screen(stdscr)
 			stdscr.move(7,0)
 			stdscr.addstr(str(c))
@@ -43,7 +40,6 @@ def main(stdscr):
 				mode = e.value
 				stdscr.move(6,0)
 				stdscr.addstr("Current Mode: " + mode)
-
 
 def keyboard_control(stdscr):
 	# do not wait for input when calling getch
@@ -94,7 +90,7 @@ def keyboard_control(stdscr):
 def poll_screen(stdscr):
 	c = stdscr.getch()
 
-	if c in char_switches or (c + 32) in char_switches:
+	if c in char_switches or (c - 32) in char_switches:
 		raise SwitchMode(chr(c).upper()) # throw exception
 	else:
 		return c
