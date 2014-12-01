@@ -18,7 +18,7 @@ turn_time = 0.50 #seconds to turn before reading distance sensor again (obstacle
 # speeds
 speed_k = 255
 speed_r = 255
-speed a = 150
+speed_a = 150
 
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
