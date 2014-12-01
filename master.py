@@ -76,7 +76,7 @@ def keyboard_control(stdscr):
 def poll_screen(stdscr):
 	c = stdscr.getch()
 
-	if c in char_switches or c.upper() in char_switches:
+	if chr(c) in char_switches or chr(c).upper() in char_switches:
 		return "Switch Mode" # throw exception
 	else:
 		return c
