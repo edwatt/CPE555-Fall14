@@ -15,6 +15,11 @@ bwd_threshold = 20
 
 turn_time = 0.50 #seconds to turn before reading distance sensor again (obstacle avoidance)
 
+# speeds
+speed_k = 255
+speed_r = 255
+speed a = 150
+
 char_obstacle_avoidance = 'A'
 char_range_keeping = 'R'
 char_keyboard_control = 'K'
@@ -78,7 +83,7 @@ def keyboard_control(stdscr):
 	stdscr.nodelay(1)
 	stdscr.move(7, 0)
 	
-	set_speed(255)	
+	set_speed(speed_k)	
 	key_pressed = -1
 
 	while True:
@@ -122,7 +127,7 @@ def keyboard_control(stdscr):
 
 
 def range_keep(stdscr):
-	set_speed(200)
+	set_speed(speed_r)
 	stdscr.nodelay(1)
 
 	#print "Initializing..."
@@ -160,7 +165,7 @@ def range_keep(stdscr):
 
 def obstacle_avoidance(stdscr):
 
-	set_speed(150)
+	set_speed(speed_a)
 	stdscr.nodelay(1)
 
 	count = 0
