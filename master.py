@@ -58,19 +58,19 @@ def keyboard_control(stdscr):
 			elif c == curses.KEY_RIGHT:
 				right_rot()
 
-	elif c == -1:
-		stdscr.clrtoeol()
-		stdscr.addstr("STOP")
-		stdscr.refresh()
-		stdscr.move(0, 0)
+		elif c == -1:
+			stdscr.clrtoeol()
+			stdscr.addstr("STOP")
+			stdscr.refresh()
+			stdscr.move(0, 0)
 
-		if key_pressed != -1:
-			stop()
-			key_pressed = -1
+			if key_pressed != -1:
+				stop()
+				key_pressed = -1
 
-	time.sleep(0.15)
-	curses.flushinp() 
-	time.sleep(0.15)
+		time.sleep(0.15)
+		curses.flushinp() 
+		time.sleep(0.15)
 
 
 def poll_screen(stdscr):
