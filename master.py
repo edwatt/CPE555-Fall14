@@ -31,6 +31,7 @@ def main(stdscr):
 
 		while True:
 			try:
+				stdscr.nodelay(1)
 
 				if mode == 'K':
 					keyboard_control(stdscr)
@@ -53,6 +54,7 @@ def main(stdscr):
 def keyboard_control(stdscr):
 	# do not wait for input when calling getch
 	stdscr.nodelay(1)
+	stdscr.move(7, 0)
 	
 	set_speed(255)	
 	key_pressed = -1
@@ -67,7 +69,7 @@ def keyboard_control(stdscr):
 
 			stdscr.addstr(str(c))
 			stdscr.refresh()
-			stdscr.move(0, 0)
+			stdscr.move(7, 0)
 			key_pressed = c
 
 			stop()
@@ -82,10 +84,11 @@ def keyboard_control(stdscr):
 				right_rot()
 
 		elif c == -1:
+			stdscr.move(7, 0)
 			stdscr.clrtoeol()
 			stdscr.addstr("STOP")
 			stdscr.refresh()
-			stdscr.move(0, 0)
+			stdscr.move(7, 0)
 
 			if key_pressed != -1:
 				stop()
