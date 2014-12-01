@@ -26,20 +26,24 @@ def main(stdscr):
 	stdscr.move(6,0)
 	stdscr.addstr("Current Mode: ")
 
-	mode = None
+	try:
+		mode = None
 
-	while True:
-		try:
-			c = poll_screen(stdscr)
-			stdscr.move(7,0)
-			stdscr.addstr(str(c))
-		except SwitchMode as e:
-			if e.value == 'Q':
-				raise
-			else:
-				mode = e.value
-				stdscr.move(6,0)
-				stdscr.addstr("Current Mode: " + mode)
+		while True:
+			try:
+				c = poll_screen(stdscr)
+				stdscr.move(7,0)
+				stdscr.addstr(str(c))
+			except SwitchMode as e:
+				if e.value == 'Q':
+					raise
+				else:
+					mode = e.value
+					stdscr.move(6,0)
+					stdscr.addstr("Current Mode: " + mode)
+
+	except SwitchMode as e:
+		pass # catching Q to quit program
 
 def keyboard_control(stdscr):
 	# do not wait for input when calling getch
