@@ -38,25 +38,25 @@ def keyboard_control(stdscr):
 		# get keyboard input, returns -1 if none available
 		c = stdscr.getch()
 		if c != -1 and c != key_pressed:
-		curses.flushinp()
-		time.sleep(0.15)
-		c = stdscr.getch()
+			curses.flushinp()
+			time.sleep(0.15)
+			c = stdscr.getch()
 
 			stdscr.addstr(str(c))
 			stdscr.refresh()
 			stdscr.move(0, 0)
-		key_pressed = c
+			key_pressed = c
 
-		stop()
-		
-		if c == curses.KEY_UP:
-			fwd()
-		elif c == curses.KEY_DOWN:
-			bwd()
-		elif c == curses.KEY_LEFT:
-			left_rot()
-		elif c == curses.KEY_RIGHT:
-			right_rot()
+			stop()
+			
+			if c == curses.KEY_UP:
+				fwd()
+			elif c == curses.KEY_DOWN:
+				bwd()
+			elif c == curses.KEY_LEFT:
+				left_rot()
+			elif c == curses.KEY_RIGHT:
+				right_rot()
 
 	elif c == -1:
 		stdscr.clrtoeol()
